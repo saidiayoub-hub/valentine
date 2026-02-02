@@ -104,19 +104,54 @@ function calculateLove() {
 }
 
 // Moving No Button
+// Version MOBILE - Plus simple, pas de mouvement
+let noCount = 0;
+
 function moveButton() {
-    const btn = document.getElementById("noBtn");
-    const card = btn.closest('.card');
+    noCount++;
     
-    btn.style.position = "absolute";
-    btn.style.left = Math.random() * 60 + 10 + "%";
-    btn.style.top = Math.random() * 40 + 30 + "%";
+    const messages = [
+        "Sérieusement? 🥺",
+        "Allez quoi... 😢",
+        "Tu me brises le cœur 💔",
+        "Le bouton Yes est juste là! 👆",
+        "Dernier essai... ❤️",
+        "Ok j'abandonne, clique Yes! 😭"
+    ];
     
-    // Make Yes button bigger each time
     const yesBtn = document.getElementById("yesBtn");
-    const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-    yesBtn.style.fontSize = (currentSize + 2) + "px";
+    const questionResult = document.getElementById("questionResult");
+    
+    // Afficher le message
+    if (noCount <= messages.length) {
+        questionResult.innerText = messages[noCount - 1];
+    } else {
+        questionResult.innerText = "Bon OK, clique sur Yes maintenant! 🙏";
+    }
+    
+    // Faire grossir Yes progressivement
+    yesBtn.style.fontSize = (1 + noCount * 0.15) + "rem";
+    yesBtn.style.padding = (12 + noCount * 2) + "px " + (25 + noCount * 3) + "px";
+    yesBtn.style.transition = "all 0.3s ease";
+    
+    // Animation shake sur le bouton No
+    const noBtn = document.getElementById("noBtn");
+    noBtn.style.animation = "shake 0.5s";
+    setTimeout(() => {
+        noBtn.style.animation = "";
+    }, 500);
 }
+
+// Animation shake
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+`;
+document.head.appendChild(style);
 
 function sayYes() {
     const messages = [
@@ -187,4 +222,5 @@ window.addEventListener('load', () => {
     for (let i = 0; i < 5; i++) {
         setTimeout(() => createHeart(), i * 500);
     }
+
 });
