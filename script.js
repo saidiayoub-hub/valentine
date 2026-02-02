@@ -103,43 +103,32 @@ function calculateLove() {
     createHeart();
 }
 
-// Moving No Button
-// Version MOBILE - Plus simple, pas de mouvement
-let noCount = 0;
-
+// Version qui bouge BEAUCOUP
 function moveButton() {
-    noCount++;
-    
-    const messages = [
-        "Sérieusement? 🥺",
-        "Allez quoi... 😢",
-        "Tu me brises le cœur 💔",
-        "Le bouton Yes est juste là! 👆",
-        "Dernier essai... ❤️",
-        "Ok j'abandonne, clique Yes! 😭"
-    ];
-    
+    const btn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const questionResult = document.getElementById("questionResult");
+    const card = btn.closest('.card');
     
-    // Afficher le message
-    if (noCount <= messages.length) {
-        questionResult.innerText = messages[noCount - 1];
-    } else {
-        questionResult.innerText = "Bon OK, clique sur Yes maintenant! 🙏";
-    }
+    // Position totalement random
+    const randomX = Math.random() * 70 + 5; // 5% à 75%
+    const randomY = Math.random() * 50 + 25; // 25% à 75%
     
-    // Faire grossir Yes progressivement
-    yesBtn.style.fontSize = (1 + noCount * 0.15) + "rem";
-    yesBtn.style.padding = (12 + noCount * 2) + "px " + (25 + noCount * 3) + "px";
-    yesBtn.style.transition = "all 0.3s ease";
+    btn.style.position = "absolute";
+    btn.style.left = randomX + "%";
+    btn.style.top = randomY + "%";
+    btn.style.transition = "all 0.2s ease"; // Plus rapide!
     
-    // Animation shake sur le bouton No
-    const noBtn = document.getElementById("noBtn");
-    noBtn.style.animation = "shake 0.5s";
-    setTimeout(() => {
-        noBtn.style.animation = "";
-    }, 500);
+    // Messages
+    const messages = [
+        "Hey! 😂", "Reviens! 🏃", "Arrête! 😭", 
+        "Non non! 🙅", "Attrape-moi! 😏"
+    ];
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    document.getElementById("questionResult").innerText = randomMsg;
+    
+    // Yes grossit
+    const currentSize = parseFloat(getComputedStyle(yesBtn).fontSize) || 16;
+    yesBtn.style.fontSize = (currentSize + 2) + "px";
 }
 
 // Animation shake
@@ -224,3 +213,4 @@ window.addEventListener('load', () => {
     }
 
 });
+
